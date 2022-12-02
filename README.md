@@ -68,7 +68,9 @@ do {
   print(error.localizedDescription)
 } 
 
-// here I split the input string by newline (keeping the empty strings!) then splitting on those empty strings (!) and getting a array of array slices which need to be converted to an array and then individually reduces to a sum. I sort to get the highest number of calories. 
+// here I split the input string by newline (keeping the empty strings!) then splitting on those empty strings (!)   
+// and getting a array of array slices which need to be converted to an array and then individually reduces to a sum.   
+// I sort to get the highest number of calories. 
 
 var input = contents
   .split(separator: "\n",omittingEmptySubsequences: false)

@@ -88,3 +88,5 @@ print("solution part1 is: ", solution1)
 let solution2 = input.prefix(3).reduce(0,+) 
 print("solution part2 is: ", solution2)
 ```
+
+## Day 2 

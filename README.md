@@ -226,7 +226,55 @@ print("total part 2 : ", totalScorePart2)
 ```
 
 ## Day 3
+My [Replit](https://replit.com/@multiwheel/adventDay3#main.swift).  
+For part 2 I needed to chunk my array, but i cannot use the swift algo package in replit.. or I could but it is a bit convoluted! :)
+Therefore I took this extension by Paul Hudson :)
+```swift
+// https://www.hackingwithswift.com/example-code/language/how-to-split-an-array-into-chunks
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        return stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
+        }
+    }
+}
+```
+This is the code after getting the contents of the file:
 
+```swift
+var input = contents.split(separator: "\n", omittingEmptySubsequences: true)
+
+// create the priorities as a dictionary because N(1), so it has a better performance, just in case I need it!
+let items: [Character] = Array("abcdefghijklmnopqrstuvwxyz" + "abcdefghijklmnopqrstuvwxyz".uppercased())
+// good resource! 
+// https://developer.apple.com/documentation/swift/dictionary/init(uniquekeyswithvalues:)
+let priorities: [Character: Int] = Dictionary(uniqueKeysWithValues: zip(items, 1...items.count))
+
+// **** Part 1 ****
+var solutionPart1: Int = 0
+for item in input {
+  let halfLength  = item.count / 2
+  let a = Set(item.prefix(halfLength))
+  let b = Set(item.suffix(halfLength))
+  let common = a.intersection(b).first!
+  solutionPart1 += priorities[common] ?? 0
+}
+//print(commonItems)
+print("Solution Part 1", solutionPart1)
+
+// **** Part 2 ****
+let chunkedInput = input.chunked(into: 3)
+//print(chunkedInput)
+var solutionPart2: Int = 0
+for group in chunkedInput {
+  guard group.count == 3 else { continue }
+  let a = Set(group[0]); let b = Set(group[1]); let c = Set(group[2])
+  if let common = a.intersection(b).intersection(c).first {
+   solutionPart2 += priorities[common] ?? 0 
+  }
+}
+print("Solution Part 2", solutionPart2)
+```
 ## Day 4
 
 ## Day 5

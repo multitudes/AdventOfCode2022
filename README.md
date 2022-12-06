@@ -250,16 +250,16 @@ let items: [Character] = Array("abcdefghijklmnopqrstuvwxyz" + "abcdefghijklmnopq
 // https://developer.apple.com/documentation/swift/dictionary/init(uniquekeyswithvalues:)
 let priorities: [Character: Int] = Dictionary(uniqueKeysWithValues: zip(items, 1...items.count))
 
+
 // **** Part 1 ****
-var solutionPart1: Int = 0
-for item in input {
-  let halfLength  = item.count / 2
-  let a = Set(item.prefix(halfLength))
-  let b = Set(item.suffix(halfLength))
-  let common = a.intersection(b).first!
-  solutionPart1 += priorities[common] ?? 0
-}
-//print(commonItems)
+var solutionPart1 = input.map {
+    let halfLength  = $0.count / 2
+    let a = Set($0.prefix(halfLength))
+    let b = Set($0.suffix(halfLength))
+    return a.intersection(b).first! 
+  }.reduce(0) {
+      $0 + (priorities[$1] ?? 0)
+    } 
 print("Solution Part 1", solutionPart1)
 
 // **** Part 2 ****

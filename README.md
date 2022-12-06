@@ -14,9 +14,9 @@
 |---|:---:|:---:|
 | ✅ [Day 1: Calorie Counting](https://adventofcode.com/2022/day/1)|⭐️|⭐️|
 | ✅ [Day 2: Rock Paper Scissors](https://adventofcode.com/2022/day/2)|⭐️|⭐️|
-| ✅ [Day 3: Rucksack Reorganization](https://adventofcode.com/2022/day/3)|🌵|🌵|
-| ✅ [Day 4: Camp Cleanup](https://adventofcode.com/2022/day/4)|⭐️|⭐️|
-| ✅ [Day 5: Supply Stacks](https://adventofcode.com/2022/day/5)|⭐️|⭐️|
+| ✅ [Day 3: Rucksack Reorganization](https://adventofcode.com/2022/day/3)|⭐️|🌵|
+| ✅ [Day 4: Camp Cleanup](https://adventofcode.com/2022/day/4)|🌵|🌵|
+| ✅ [Day 5: Supply Stacks](https://adventofcode.com/2022/day/5)|🌵|🌵|
 <!--
 | ✅ [Day 6: Custom Customs](https://adventofcode.com/2020/day/6)|⭐️|⭐️|
 | ✅ [Day 7: Handy Haversacks](https://adventofcode.com/2020/day/7)|⭐️|⭐️|
@@ -91,7 +91,7 @@ let solution2 = input.prefix(3).reduce(0,+)
 print("solution part2 is: ", solution2)
 ```
 
-## [Day 2]() 
+## Day 2
 My [Replit](https://replit.com/@multiwheel/adventDay2#main.swift).  
 I used enums and the power of tuples to do the challenge. It was a bit finnicky to enter all the rules to be honest :)   
 The enums helped to make for clearer code. 
@@ -225,3 +225,10 @@ print("total part 1 : ", totalScorePart1)
 print("total part 2 : ", totalScorePart2)
 ```
 
+## Day 3
+
+## Day 4
+
+## Day 5
+
+## Day 6

@@ -15,7 +15,7 @@
 | ✅ [Day 1: Calorie Counting](https://adventofcode.com/2022/day/1)|⭐️|⭐️|
 | ✅ [Day 2: Rock Paper Scissors](https://adventofcode.com/2022/day/2)|⭐️|⭐️|
 | ✅ [Day 3: Rucksack Reorganization](https://adventofcode.com/2022/day/3)|⭐️|⭐️|
-| ✅ [Day 4: Camp Cleanup](https://adventofcode.com/2022/day/4)|🌵|🌵|
+| ✅ [Day 4: Camp Cleanup](https://adventofcode.com/2022/day/4)|⭐️|🌵|
 | ✅ [Day 5: Supply Stacks](https://adventofcode.com/2022/day/5)|🌵|🌵|
 <!--
 | ✅ [Day 6: Custom Customs](https://adventofcode.com/2020/day/6)|⭐️|⭐️|
@@ -281,6 +281,23 @@ for group in chunkedInput {
 print("Solution Part 2", solutionPart2)
 ```
 ## Day 4
+My [Replit](https://replit.com/@multiwheel/adventOfCodeDay4#main.swift). 
+
+This challenge is ideal to work with ClosedRange. I need an extra method though. I wrote an extension to check wether the one is contained in the other.
+```swift
+extension ClosedRange {
+    func contains(other: ClosedRange) -> Bool {
+        lowerBound <= other.lowerBound && 
+        upperBound >= other.upperBound
+    }
+}
+```
+
+Then the rest is just about decoding and splitting:
+
+```swift
+
+```
 
 ## Day 5
 

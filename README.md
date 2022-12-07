@@ -245,21 +245,26 @@ This is the code after getting the contents of the file:
 var input = contents.split(separator: "\n", omittingEmptySubsequences: true)
 
 // create the priorities as a dictionary because N(1), so it has a better performance, just in case I need it!
-let items: [Character] = Array("abcdefghijklmnopqrstuvwxyz" + "abcdefghijklmnopqrstuvwxyz".uppercased())
+let allItems: [Character] = Array("abcdefghijklmnopqrstuvwxyz" + "abcdefghijklmnopqrstuvwxyz".uppercased())
 // good resource! 
 // https://developer.apple.com/documentation/swift/dictionary/init(uniquekeyswithvalues:)
 let priorities: [Character: Int] = Dictionary(uniqueKeysWithValues: zip(items, 1...items.count))
 
 
 // **** Part 1 ****
-var solutionPart1 = input.map {
-    let halfLength  = $0.count / 2
-    let a = Set($0.prefix(halfLength))
-    let b = Set($0.suffix(halfLength))
+
+// convenience function to get the two halves of the input string and get the intersection, my item
+func getCommonItem(from items: String.SubSequence) -> Character {
+    let halfLength  = items.count / 2
+    let a = Set(items.prefix(halfLength))
+    let b = Set(items.suffix(halfLength))
     return a.intersection(b).first! 
-  }.reduce(0) {
-      $0 + (priorities[$1] ?? 0)
-    } 
+}
+
+var solutionPart1 = input.map {items in
+   getCommonItem(from: items)
+  }.reduce(0) { $0 + (priorities[$1] ?? 0 )} 
+      
 print("Solution Part 1", solutionPart1)
 
 // **** Part 2 ****

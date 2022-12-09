@@ -355,7 +355,39 @@ let solution2 = inputRanges
 My (replit)[https://replit.com/@multiwheel/adventOfCode5).
 
 Helpfully this challenge has stack in its name. So I will start by creating some stacks :)
+```swift
+struct Stack {
+  fileprivate var array:[String] = []
 
+  init(_ array: [String]) {
+    self.array = array 
+  }
+  
+  init() {}
+  
+  mutating func push(_ element: String) {
+    array.append(element)
+  }
+
+  mutating func pop() -> String? {
+    return array.popLast()
+  }
+
+  func peek() -> String? {
+    return array.last
+  }
+}
+```
+I like to create a dictionary for the input stacks:
+```swift
+var testStacksdic: [Int: Stack] = [
+                        1:Stack(["Z","N"]),
+                        2:Stack(["M","C","D"]),
+                        3:Stack(["P"])]
+```
+and my input is straihgt away converted from a string to an array of tuples like this `[(move: Int, from: Int, to: Int)]`.  
+The code for this is trivial. I split and tokenize each line of the input with a compactMap function (not map because I consider the conversion to be failable and I keep the optional in case something goes wrong :)  
+Code will be like `.compactMap { line -> (Int,Int,Int)? in ... }
 
 
 

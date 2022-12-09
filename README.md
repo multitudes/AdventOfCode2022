@@ -352,7 +352,7 @@ let solution2 = inputRanges
 ```
 
 ## Day 5
-My [https://replit.com/@multiwheel/adventOfCode5).
+My (replit)[https://replit.com/@multiwheel/adventOfCode5).
 
 Helpfully this challenge has stack in its name. So I will start by creating some stacks :)
 

@@ -356,6 +356,8 @@ My (replit)[https://replit.com/@multiwheel/adventOfCode5).
 
 Helpfully this challenge has stack in its name. So I will start by creating some stacks :)
 ```swift
+// create a data structure to emulate stacks
+// and then update it for part 2 
 struct Stack {
   fileprivate var array:[String] = []
 
@@ -369,10 +371,22 @@ struct Stack {
     array.append(element)
   }
 
+  // This one is for part 2 with craneMover9001!
+  mutating func push(_ element: [String]) {
+    array += element
+  }
+
   mutating func pop() -> String? {
     return array.popLast()
   }
 
+  // This one is for part 2 with craneMover9001!
+  mutating func pop(_ number: Int) -> [String]? {
+    let removed = Array(array.suffix(number))
+    array.removeLast(number)
+    return removed
+  }
+  
   func peek() -> String? {
     return array.last
   }
@@ -384,15 +398,62 @@ var testStacksdic: [Int: Stack] = [
                         1:Stack(["Z","N"]),
                         2:Stack(["M","C","D"]),
                         3:Stack(["P"])]
+                        
+// the main puzzle
+var stacksdict: [Int: Stack] = [
+    1:Stack(["S", "Z", "P", "D", "L", "B", "F", "C"]),
+    2:Stack(["N","V","G", "P", "H", "W", "B"]),
+    3:Stack(["F", "W", "B", "J", "G"]),
+    4:Stack(["G", "J", "N", "F", "L", "W", "C", "S"]),
+    5:Stack(["W", "J", "L", "T", "P", "M", "S", "H"]),
+    6:Stack(["B", "C", "W", "G", "F", "S"]),
+    7:Stack(["H", "T", "P", "M", "Q", "B", "W"]),
+    8:Stack(["F", "S", "W", "T"]),
+    9:Stack(["N", "C", "R"])
+]
+
+// My move function for part 1 and updated for part 2 with the cratemover 9001
+func move(numberOfCrates: Int,
+          from currentStackNumber: Int,
+          to otherStackNumber: Int,
+          type9001: Bool = false) {
+  var current = stacksdict[currentStackNumber] ?? Stack()
+  var other = stacksdict[otherStackNumber] ?? Stack()
+  if type9001 {
+    let crates = current.pop(numberOfCrates) ?? []
+    other.push(crates) 
+    print("crates", crates)
+  } else {
+    for _ in 1...numberOfCrates {
+      if let crate = current.pop() {
+          other.push(crate) 
+          print(crate)
+      }
+    }
+  }
+  // popping element is fine but the dict needss to 
+  // be updated as well !
+  stacksdict[currentStackNumber] = current 
+  stacksdict[otherStackNumber] = other
+}
+
 ```
-and my input is straihgt away converted from a string to an array of tuples like this `[(move: Int, from: Int, to: Int)]`.  
+and my input is straight away converted from a string to an array of tuples like this `[(move: Int, from: Int, to: Int)]`.  
 The code for this is trivial. I split and tokenize each line of the input with a compactMap function (not map because I consider the conversion to be failable and I keep the optional in case something goes wrong :)  
 Code will be like `.compactMap { line -> (Int,Int,Int)? in ... }
 
-
-
+for part 1:
 ```swift
-
+let _ = input.map { line in
+  move(numberOfCrates: line.move, 
+       from: line.from, to: line.to)
+}
 ```
-
+for part 2:
+```swift
+let _ = input.map { line in
+  move(numberOfCrates: line.move, 
+       from: line.from, to: line.to, type9001: true)
+}
+```
 ## Day 6

@@ -17,7 +17,7 @@
 | ✅ [Day 3: Rucksack Reorganization](https://adventofcode.com/2022/day/3)|⭐️|⭐️|
 | ✅ [Day 4: Camp Cleanup](https://adventofcode.com/2022/day/4)|⭐️|⭐️|
 | ✅ [Day 5: Supply Stacks](https://adventofcode.com/2022/day/5)|⭐️|⭐️|
-| ✅ [Day 6: Tuning Trouble](https://adventofcode.com/2022/day/6)|🌵|🌵|
+| ✅ [Day 6: Tuning Trouble](https://adventofcode.com/2022/day/6)|⭐️|⭐️|
 | ✅ [Day 7: No Space Left On Device](https://adventofcode.com/2022/day/7)|🌵|🌵|
 | ✅ [Day 8: Treetop Tree House](https://adventofcode.com/2022/day/8)|🌵|🌵|
 | ✅ [Day 9: Rope Bridge](https://adventofcode.com/2022/day/9)|🌵|🌵|
@@ -457,3 +457,28 @@ let _ = input.map { line in
 }
 ```
 ## Day 6
+This was very easy. 
+Part 1:
+```swift
+var inSync = false
+var i = 0
+var tempBuffer: [String] = []
+
+while !inSync {
+  let char = String(datastreamBuffer[i])
+  if !tempBuffer.contains(char) {
+    tempBuffer.append(char)
+    print("buffer ", tempBuffer, "char ", char)
+    tempBuffer.count == 4 ? (inSync = true) : (inSync = false) 
+  } else {
+    print("buffer ", tempBuffer, "char ", char)
+    if let index = tempBuffer.firstIndex(of: char) {
+    tempBuffer.removeFirst(index+1)  
+      tempBuffer.append(char)
+    }
+  }
+  i += 1
+}
+print("solution ", i)
+```
+Part 2 I will just change the line `tempBuffer.count == 4` to `tempBuffer.count == 14`!  

@@ -483,3 +483,28 @@ print("solution ", i)
 Part 2 I will just change the line `tempBuffer.count == 4` to `tempBuffer.count == 14`!  
 
 ## Day 6
+Very short code today. I chose to do a simple while loop. An iterator would probably have been a more sophisticated option.  
+Basically the buffer does not care about the length of the input signal, therefore a while loop seems the way to go. Feels too easy but it works.
+
+```swift
+let datastreamBuffer = Array("mjqjpqmgbljsphdztnvjfqwrcgsmlb ... ")
+
+var inSync = false
+var i = 0
+var tempBuffer: [String] = []
+
+while !inSync {
+  let char = String(datastreamBuffer[i])
+  if !tempBuffer.contains(char) {
+    tempBuffer.append(char)
+    tempBuffer.count == 14 ? (inSync = true) : (inSync = false) 
+  } else {
+    if let index = tempBuffer.firstIndex(of: char) {
+    tempBuffer.removeFirst(index+1)  
+      tempBuffer.append(char)
+    }
+  }
+  i += 1
+}
+print("solution ", i)
+```

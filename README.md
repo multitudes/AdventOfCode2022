@@ -57,6 +57,8 @@ Collect stars by solving puzzles. Two puzzles will be made available on each day
 # A sort of diary
 
 ## Day 1 
+Day 1 is always kinda of easy. Good to troubleshoot the system :)  
+
 ```swift
 import Foundation
 
@@ -92,7 +94,7 @@ print("solution part2 is: ", solution2)
 ```
 
 ## Day 2
-My [Replit](https://replit.com/@multiwheel/adventDay2#main.swift).  
+
 I used enums and the power of tuples to do the challenge. It was a bit finnicky to enter all the rules to be honest :)   
 The enums helped to make for clearer code. 
 
@@ -226,7 +228,6 @@ print("total part 2 : ", totalScorePart2)
 ```
 
 ## Day 3
-My [Replit](https://replit.com/@multiwheel/adventDay3#main.swift).  
 For part 2 I needed to chunk my array, but i cannot use the swift algo package in replit.. or I could but it is a bit convoluted! :)
 Therefore I took this extension by Paul Hudson :)
 ```swift
@@ -281,7 +282,6 @@ for group in chunkedInput {
 print("Solution Part 2", solutionPart2)
 ```
 ## Day 4
-My [Replit](https://replit.com/@multiwheel/adventOfCodeDay4#main.swift). 
 
 This challenge is ideal to work with ClosedRange. I need an extra method though. I wrote an extension to check wether the one is contained in the other.
 ```swift
@@ -352,9 +352,8 @@ let solution2 = inputRanges
 ```
 
 ## Day 5
-My (replit)[https://replit.com/@multiwheel/adventOfCode5).
 
-Helpfully this challenge has stack in its name. So I will start by creating some stacks :)
+Helpfully this challenge has stack in its name. So I will start by creating some stacks :)  
 ```swift
 // create a data structure to emulate stacks
 // and then update it for part 2 
@@ -482,3 +481,5 @@ while !inSync {
 print("solution ", i)
 ```
 Part 2 I will just change the line `tempBuffer.count == 4` to `tempBuffer.count == 14`!  
+
+## Day 6

@@ -22,11 +22,11 @@
 | ✅ [Day 8: Treetop Tree House](https://adventofcode.com/2022/day/8)|🌵|🌵|
 | ✅ [Day 9: Rope Bridge](https://adventofcode.com/2022/day/9)|🌵|🌵|
 | ✅ [Day 10: Cathode-Ray Tube](https://adventofcode.com/2022/day/10)|🌵|🌵|
+| ✅ [Day 11: Monkey in the Middle](https://adventofcode.com/2022/day/11)|🌵|🌵|
+| ✅ [Day 12: Hill Climbing Algorithm](https://adventofcode.com/2022/day/12)|🌵|🌵|
+| ✅ [Day 13: Distress Signal](https://adventofcode.com/2022/day/13)|🌵|🌵| 
+| ✅ [Day 14: Regolith Reservoir](https://adventofcode.com/2022/day/14)|🌵|🌵| 
 <!--
-| ✅ [Day 11: Seating System](https://adventofcode.com/2020/day/11)|⭐️|⭐️|
-| ✅ [Day 12: Rain Risk](https://adventofcode.com/2020/day/12)|⭐️|⭐️|
-| ✅ [Day 13: Shuttle Search](https://adventofcode.com/2020/day/13)|⭐️|⭐️| 
-| ✅ [Day 14: Docking Data](https://adventofcode.com/2020/day/14)|⭐️|⭐️| 
 | ✅ [Day 15: Rambunctious Recitation](https://adventofcode.com/2020/day/15)|⭐️|⭐️| 
 | ✅ [Day 16: Ticket Translation](https://adventofcode.com/2020/day/16)|⭐️|⭐️| 
 | ✅ [Day 17: Conway Cubes](https://adventofcode.com/2020/day/17)|⭐️|⭐️| 

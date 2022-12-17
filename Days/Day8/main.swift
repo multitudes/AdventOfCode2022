@@ -27,15 +27,6 @@ do {
 // and get a better performance
 var rotatedContents = rotate(nestedArray:contents)
 
-print("contents:")  
-for i in contents {
- print(i)  
-}
-
-print("rotatedContents:")  
-for i in rotatedContents {
- print(i)  
-}
 // creating another nested int array of the same size of my input but initializing with -1 
 // this will allow to skipthe part that I already found
 // to be highest
@@ -98,8 +89,5 @@ checkHeights(treeMap: contents)
 VisibleTrees = rotate(nestedArray:VisibleTrees)
 checkHeights(treeMap: rotatedContents)
 
-for i in VisibleTrees {
- print(i)  
-}
 
 print("solution 1", visibleTrees)

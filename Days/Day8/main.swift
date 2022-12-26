@@ -1,20 +1,9 @@
 import Foundation
 
-// rotate a 2D array flipping rows to columns
-func rotate(nestedArray: [[Int]]) -> [[Int]] {
-  var newArray = Array(repeating: Array(repeating: 0, count: nestedArray[0].count), count: nestedArray.count)
-  for i in 0..<nestedArray.count {
-    for k in 0..<nestedArray[0].count {
-      newArray[k][i] = nestedArray[i][k]
-    }
-  }
-  return newArray
-}
-
 // getting my input as a nested int array
 var contents: [[Int]] = []
 do {
-  contents = try String(contentsOfFile: "input.txt", encoding: .utf8)
+  contents = try String(contentsOfFile: "inputTest.txt", encoding: .utf8)
   .split(separator: "\n")
   .map { Array(String($0))
         .compactMap { Int(String($0)) }
@@ -23,71 +12,103 @@ do {
   print(error.localizedDescription)
 }
 
-// I need to rotate the input array to simplify
-// and get a better performance
-var rotatedContents = rotate(nestedArray:contents)
+// convenience variables
+var lastRow = contents[0].count - 1
+var lastCol = contents.count - 1
 
-// creating another nested int array of the same size of my input but initializing with -1 
-// this will allow to skipthe part that I already found
-// to be highest
-var VisibleTrees = Array(repeating: Array(repeating: -1, count: contents[0].count), count: contents.count)
+// I use a tuple as return value to have the answers both for
+// part 1 and 2
+func checkWest(row: Int, col: Int) -> (isVisible: Bool, scenicScore:Int) {
+  if col == 0 { return (true, 0) }
+  var index = col; var scenicScore = 0
+  while (index > 0) {
+    scenicScore += 1; index -= 1
+    // early exit if the contents of the new position are 
+    // bigger or equal of the tree in consideration
+    // this will be valid for part 2 as well - the scenic score 
+    // will not be increased
+    if (contents[row][col] <= contents[row][index]) {
+      return (false, scenicScore)
+    }
+  }
+  // finishing the loop and going all the way without finding 
+  // taller trees I return that the tree is visible and the score
+  return (true, scenicScore)
+}
+
+func checkEast(row: Int, col: Int) ->  (isVisible: Bool, scenicScore:Int) {
+  if col == lastCol { return (true, 0) }
+  var index = col; var scenicScore = 0
+  while (index < lastCol) {
+    scenicScore += 1; index += 1
+    if (contents[row][col] <= contents[row][index]) {
+      return (false, scenicScore)
+    }
+  }
+  return (true, scenicScore)
+}
+
+func checkNorth(row: Int, col: Int) ->  (isVisible: Bool, scenicScore:Int) {
+  if row == 0 { return (true, 0) }
+  var index = row; var scenicScore = 0
+  while (index != 0) {
+    scenicScore += 1; index -= 1
+    if (contents[row][col] <= contents[index][col]) {
+      return (false, scenicScore)
+    }
+  }
+  return (true, scenicScore)
+}
+
+func checkSouth(row: Int, col: Int) ->  (isVisible: Bool, scenicScore:Int) {
+  if row == lastRow { return (true, 0) }
+  var index = row; var scenicScore = 0
+  while (index < (contents[0].count - 1)) {
+    scenicScore += 1; index += 1
+    if (contents[row][col] <= contents[index][col]) {
+      return (false, scenicScore)
+    }
+  }
+  return (true, scenicScore)
+}
 
 // this will be the solution of part 1
 var visibleTrees = 0
+// this will be the solution of part 1
+var totalScenicScore = 0
 
-func checkHeights(treeMap: [[Int]]) {
-  // the bounds of my array
-  let lastRow = treeMap.count - 1
-  let lastCol = treeMap[0].count - 1
-  for (indexRow, row) in treeMap.enumerated() { 
-    var highestSoFarInRow = row[0]
-    // the starting value of the other side - 
-    // starting from the end of the row
-    let inversedRow = Array(row.reversed())
-    var highestSoFarInRowReversed = row[lastCol]
-    // starting iterating the heights in the current row
-    for (indexCol, height) in row.enumerated() { 
-     // the first and last row are visible by default
-     if indexRow == 0 || indexRow == lastRow {
-       if VisibleTrees[indexRow][indexCol] != height{
-         visibleTrees += 1
-         VisibleTrees[indexRow][indexCol] = height
-         continue
-       }
-     }    
-     // the first and last column are visible too 
-     if indexCol == 0 || indexCol == lastCol {
-       if VisibleTrees[indexRow][indexCol] != height{
-          visibleTrees += 1
-          VisibleTrees[indexRow][indexCol] = height
-          continue
+// looping over every position of the map
+for i in 0..<contents.count {
+    for k in 0..<contents[0].count {
+      var scenicScore = 0
+      let scores = checkScores(row: i, col: k)
+      //solution for part 1
+      if scores.visible {
+        visibleTrees += 1
+      }
+      //solution for part 2
+      scenicScore = scores.scenicScore
+      if scenicScore > totalScenicScore {
+        totalScenicScore = scenicScore
       }
     }
-    // check going west - east
-    if height > highestSoFarInRow {
-       highestSoFarInRow = height 
-       if VisibleTrees[indexRow][indexCol] != height{
-        visibleTrees += 1
-        VisibleTrees[indexRow][indexCol] = height
-     }
-    }
-    // I reuse the current incrementing indexCol but on the reversed array!
-    if inversedRow[indexCol] > highestSoFarInRowReversed {
-      highestSoFarInRowReversed = inversedRow[indexCol]
-      if VisibleTrees[indexRow][lastCol-indexCol] != inversedRow[indexCol]{
-      visibleTrees += 1
-      VisibleTrees[indexRow][lastCol-indexCol] = inversedRow[indexCol]
-     }
-    }
   }
- }
+
+// convenience function to test the code
+func checkScores(row: Int, col: Int) -> (visible: Bool, scenicScore: Int) {
+      var scenicScore = 0; var isVisibleTree: Bool = false
+      let east = checkEast(row: row, col: col)
+      let west = checkWest(row: row, col: col)
+      let north = checkNorth(row: row, col: col)
+      let south = checkSouth(row: row, col: col) 
+      //calculating part of the solution for part 1
+      if east.isVisible || west.isVisible || north.isVisible || south.isVisible {
+        isVisibleTree = true
+      }
+      //calculating part of the solution for part 2
+      scenicScore = east.scenicScore * west.scenicScore * north.scenicScore * south.scenicScore
+     return (visible: isVisibleTree, scenicScore: scenicScore)
 }
 
-// first go iterating through the input map from left to right
-checkHeights(treeMap: contents)
-// then rotate both arrays and go again from left to right
-VisibleTrees = rotate(nestedArray:VisibleTrees)
-checkHeights(treeMap: rotatedContents)
-
-
 print("solution 1", visibleTrees)
+print("solution 2", totalScenicScore)

@@ -19,7 +19,7 @@
 | ✅ [Day 5: Supply Stacks](https://adventofcode.com/2022/day/5)|⭐️|⭐️|
 | ✅ [Day 6: Tuning Trouble](https://adventofcode.com/2022/day/6)|⭐️|⭐️|
 | ✅ [Day 7: No Space Left On Device](https://adventofcode.com/2022/day/7)|🌵|🌵|
-| ✅ [Day 8: Treetop Tree House](https://adventofcode.com/2022/day/8)|⭐️|🌵|
+| ✅ [Day 8: Treetop Tree House](https://adventofcode.com/2022/day/8)|⭐️|⭐️|
 | ✅ [Day 9: Rope Bridge](https://adventofcode.com/2022/day/9)|🌵|🌵|
 | ✅ [Day 10: Cathode-Ray Tube](https://adventofcode.com/2022/day/10)|🌵|🌵|
 | ✅ [Day 11: Monkey in the Middle](https://adventofcode.com/2022/day/11)|🌵|🌵|
@@ -507,4 +507,77 @@ while !inSync {
   i += 1
 }
 print("solution ", i)
+```
+
+## Day 8
+Fairly easy but easy to overccomplicate the answers. At first I was concerned with the performance and tried to minimise the loops using a second map where I enter the results that are already know like a sort of cache. Turn out that this was not needed and also when I read part 2 I realised that this was the wrong approach.  
+I really needed to go to every tree on the map O(N^2) and from there look in all directions if I am visible..  
+I made 4 functions called `checkWest`, `checkEast` etc. with a while loop with an early exit if the tree is not visible. Also at the same time I check the scenic score.
+
+```swift
+// convenience variables
+var lastRow = contents[0].count - 1
+var lastCol = contents.count - 1
+
+// I use a tuple as return value to have the answers both for
+// part 1 and 2
+func checkWest(row: Int, col: Int) -> (isVisible: Bool, scenicScore:Int) {
+  if col == 0 { return (true, 0) }
+  var index = col; var scenicScore = 0
+  while (index > 0) {
+    scenicScore += 1; index -= 1
+    // early exit if the contents of the new position are 
+    // bigger or equal of the tree in consideration
+    // this will be valid for part 2 as well - the scenic score 
+    // will not be increased
+    if (contents[row][col] <= contents[row][index]) {
+      return (false, scenicScore)
+    }
+  }
+  // finishing the loop and going all the way without finding 
+  // taller trees I return that the tree is visible and the score
+  return (true, scenicScore)
+}
+
+// [...]
+
+
+// convenience function to test the code
+func checkScores(row: Int, col: Int) -> (visible: Bool, scenicScore: Int) {
+      var scenicScore = 0; var isVisibleTree: Bool = false
+      let east = checkEast(row: row, col: col)
+      let west = checkWest(row: row, col: col)
+      let north = checkNorth(row: row, col: col)
+      let south = checkSouth(row: row, col: col) 
+      //calculating part of the solution for part 1
+      if east.isVisible || west.isVisible || north.isVisible || south.isVisible {
+        isVisibleTree = true
+      }
+      //calculating part of the solution for part 2
+      scenicScore = east.scenicScore * west.scenicScore * north.scenicScore * south.scenicScore
+     return (visible: isVisibleTree, scenicScore: scenicScore)
+}
+
+
+// looping over every position of the map
+for i in 0..<contents.count {
+    for k in 0..<contents[0].count {
+      var scenicScore = 0
+      let scores = checkScores(row: i, col: k)
+      //solution for part 1
+      if scores.visible {
+        visibleTrees += 1
+      }
+      //solution for part 2
+      scenicScore = scores.scenicScore
+      if scenicScore > totalScenicScore {
+        totalScenicScore = scenicScore
+      }
+    }
+  }
+
+print("solution 1", visibleTrees)
+print("solution 2", totalScenicScore)
+
+
 ```

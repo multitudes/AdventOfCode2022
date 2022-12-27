@@ -26,25 +26,25 @@
 | ✅ [Day 12: Hill Climbing Algorithm](https://adventofcode.com/2022/day/12)|🌵|🌵|
 | ✅ [Day 13: Distress Signal](https://adventofcode.com/2022/day/13)|🌵|🌵| 
 | ✅ [Day 14: Regolith Reservoir](https://adventofcode.com/2022/day/14)|🌵|🌵| 
-<!--
-| ✅ [Day 15: Rambunctious Recitation](https://adventofcode.com/2020/day/15)|⭐️|⭐️| 
-| ✅ [Day 16: Ticket Translation](https://adventofcode.com/2020/day/16)|⭐️|⭐️| 
-| ✅ [Day 17: Conway Cubes](https://adventofcode.com/2020/day/17)|⭐️|⭐️| 
-| ✅ [Day 18: Operation Order](https://adventofcode.com/2020/day/18)|⭐️|⭐️|
-| ✅ [Day 19: Monster Messages](https://adventofcode.com/2020/day/19)|⭐️|⭐️|
-| ✅ [Day 20: Jurassic Jigsaw](https://adventofcode.com/2020/day/20)|🌵||
-| ✅ [Day 21: Allergen Assessment ](https://adventofcode.com/2020/day/21)|⭐️|⭐️|
-| ✅ [Day 22: Crab Combat](https://adventofcode.com/2020/day/22)|⭐️|⭐️|
-| ✅ [Day 23: Crab Cups ](https://adventofcode.com/2020/day/23)|⭐️||
-| ✅ [Day 24: Lobby Layout](https://adventofcode.com/2020/day/24)|🌵||
-| ✅ [Day 25: Combo Breaker](https://adventofcode.com/2020/day/25)|🌵||
+| ✅ [Day 15: Beacon Exclusion Zone](https://adventofcode.com/2022/day/15)|🌵|🌵|  
+| ✅ [Day 16: Proboscidea Volcanium](https://adventofcode.com/2022/day/16)|🌵|🌵| 
+| ✅ [Day 17: Pyroclastic Flow](https://adventofcode.com/2022/day/17)|🌵|🌵| 
+| ✅ [Day 18: Boiling Boulders](https://adventofcode.com/2022/day/18)|🌵|🌵| 
+| ✅ [Day 19: Not Enough Minerals](https://adventofcode.com/2022/day/19)|🌵|🌵| 
+| ✅ [Day 20: Grove Positioning System](https://adventofcode.com/2022/day/20)|🌵|🌵| 
+| ✅ [Day 21: Monkey Math](https://adventofcode.com/2022/day/21)|🌵|🌵| 
+| ✅ [Day 22: Monkey Map](https://adventofcode.com/2022/day/22)|🌵|🌵| 
+| ✅ [Day 23: Unstable Diffusion](https://adventofcode.com/2022/day/23)|🌵|🌵| 
+| ✅ [Day 24: Blizzard Basin](https://adventofcode.com/2022/day/24)|🌵|🌵| 
+| ✅ [Day 25: Full of Hot Air](https://adventofcode.com/2022/day/25)|🌵|🌵| 
 
 -->
-## Preparing the environment
-Something I like to try every year, even this year I am traveling and dont have access to a mac! 
+## Preparing the environment  
+
+Something I like to try every year, even this year I am traveling and dont have access to a mac!  
+
 I will do the challenges in [replit.com](https://replit.com/@multiwheel)  
 [Last year](https://github.com/multitudes/AdventOfCode2021/blob/main/README.md) I did the challenges in the Swift command line.  
-
 
 ## Advent of Code 2022 Story
 

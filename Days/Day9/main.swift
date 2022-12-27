@@ -1,5 +1,3 @@
-// work in progress!
-// part 1
 import Foundation
 
 // getting my input as a nested int array
@@ -8,13 +6,15 @@ do {
   contents = try String(contentsOfFile: "input.txt", encoding: .utf8)
   .split(separator: "\n")
   .compactMap { 
-    // splitting the line in chars
-    let characters = Array($0)
+    // splitting the line in 2 - character for direction and steps
+    let line = $0.split(separator: " ")
+    // the line should always be divided by a space like "U 5" 
+    assert(line.count == 2, "error : missing data")
     // taking the first and last and returning then as tuple
-    if let direction = characters.first, let lastChar = characters.last, let steps = Int(String(lastChar)) {
-      return (direction: direction, steps: steps)
+    if let direction = String(line[0]).first, 
+       let steps = Int(line[1]) {
+       return (direction: direction, steps: steps)
     } 
-    print ("error ----------------------")
     return nil
     }
 } catch {
@@ -23,7 +23,8 @@ do {
 
 var head: (row: Int, col: Int) = (0,0)
 var tail: (row: Int, col: Int) = (0,0)
-var tails: [(row: Int, col: Int)] = []
+var tails: [(row: Int, col: Int)] = [(0,0)]
+
 func tailIsAdjacent(head: (row: Int, col: Int), tail: (row: Int, col: Int)) -> Bool {
   if abs(head.row - tail.row) <= 1 && 
      abs(head.col - tail.col) <= 1 {
@@ -32,13 +33,10 @@ func tailIsAdjacent(head: (row: Int, col: Int), tail: (row: Int, col: Int)) -> B
   return false
 }
 
-print(tailIsAdjacent(head: head, tail: tail ))
-// create the map
-//var map: [[Character]] = [[Character]](repeating: [Character](repeating: ".", count: 100), count: 100)
-// putting my head
-//map[50][50] = "H"
+// Here I take every line in input and process the data
+// according to the 4 cases - directions and storing the 
+// position of the tail in an array with unique elements
 for line in contents {
-  print(line)
   switch line.direction {
     case "R":
       for _ in 0..<line.steps {
@@ -46,54 +44,43 @@ for line in contents {
         if !tailIsAdjacent(head: head, tail: tail) {
           tail.col += 1; tail.row = head.row
         }
-        if (!tails.contains { element in 
-                           element.col == tail.col && 
-                           element.row == tail.row }) {
+        if !(tails.contains { $0 == tail }) {
           tails.append(tail)
         }
       }
     case "U":
-    for _ in 0..<line.steps {
+      for _ in 0..<line.steps {
         head.row += 1
-       if !tailIsAdjacent(head: head, tail: tail) {
+        if !tailIsAdjacent(head: head, tail: tail) {
           tail.row += 1; tail.col = head.col
         }
-       if (!tails.contains { element in 
-                           element.col == tail.col && 
-                           element.row == tail.row }) {
+        if !(tails.contains { $0 == tail }) {
           tails.append(tail)
         }
       }
     case "D":
-    for _ in 0..<line.steps {
+      for _ in 0..<line.steps {
         head.row -= 1
-      if !tailIsAdjacent(head: head, tail: tail) {
+        if !tailIsAdjacent(head: head, tail: tail) {
           tail.row -= 1; tail.col = head.col
         }
-       if (!tails.contains { element in 
-                           element.col == tail.col && 
-                           element.row == tail.row }) {
+        if !(tails.contains { $0 == tail }) {
           tails.append(tail)
         }
       }
     case "L":
-    for _ in 0..<line.steps {
+      for _ in 0..<line.steps {
         head.col -= 1 
-       if !tailIsAdjacent(head: head, tail: tail) {
+        if !tailIsAdjacent(head: head, tail: tail) {
           tail.col -= 1; tail.row = head.row
         }
-       if (!tails.contains { element in 
-                           element.col == tail.col && 
-                           element.row == tail.row }) {
+        if !(tails.contains { $0 == tail }) {
           tails.append(tail)
         }
       }
     default:
-    print("hello")
+    print("invalid data")
   }
 }
-print(head)
-print(tail)
-print(tails)
-print(tails.count)
 
+print("Solution part 1: ", tails.count)

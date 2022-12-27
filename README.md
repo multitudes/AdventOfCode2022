@@ -38,10 +38,9 @@
 | ✅ [Day 24: Blizzard Basin](https://adventofcode.com/2022/day/24)|🌵|🌵| 
 | ✅ [Day 25: Full of Hot Air](https://adventofcode.com/2022/day/25)|🌵|🌵| 
 
--->
 ## Preparing the environment  
 
-Something I like to try every year, even this year I am traveling and dont have access to a mac!  
+Something I like to try every year, even this year I am traveling and dont have access to a mac and will not have as much time but will do my best!  
 
 I will do the challenges in [replit.com](https://replit.com/@multiwheel)  
 [Last year](https://github.com/multitudes/AdventOfCode2021/blob/main/README.md) I did the challenges in the Swift command line.  

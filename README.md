@@ -580,3 +580,10 @@ print("solution 2", totalScenicScore)
 
 
 ```
+
+## Day 9
+
+## Day 10
+I did a while loop simulating the cycles and for part 1 I check the signal strength at certain cycles. Not difficult but I could not resist skipping a cycle for the addx instruction. (incrementing the cycles count by 2 instead by 1! :)  
+For part 2 I had tochange that! so I used a flag to indicate that addx is two cycles long of course but I need every cycle now!  
+

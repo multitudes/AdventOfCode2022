@@ -5,7 +5,7 @@ let datastreamBuffer = Array("qfmfhmhjmjggwbbvdvwvlvrrtsrsccwsslvlffjrrtprprjjvm
 // nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg
 // zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw
 
-print(datastreamBuffer)
+// print(datastreamBuffer)
 
 var inSync = false
 var i = 0
@@ -27,4 +27,5 @@ while !inSync {
   }
   i += 1
 }
+// Part 2 I will just change the line tempBuffer.count == 4 to tempBuffer.count == 14!
 print("solution ", i)

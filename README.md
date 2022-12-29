@@ -669,5 +669,10 @@ for line in CRTScreen {
   print(line.joined(separator:""))
 }
 ```
-```
+
+## Day 11  
+
+Getting the data from the monkey input files is the first challenge. Swift 5.7 has a new Regex engine but the Replit.com playground has not yet upgraded to the new swift version. Using the old regex framework is monkey work! it would take quite a few hundred line of code. Since I have only a few monkeys I decided to extract the data manually.  
+The second "ah ah" moment is realizing that in a loop like `for line in lines {}` the whole lines struct is actually copied and will not be updated anymore in later loops. I need to loop with indices only :)
+
 

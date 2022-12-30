@@ -1,13 +1,16 @@
 // work in progress!
+
 import Foundation
 
-// getting my input as a nested array
-var map: [[String]] = []
+// getting my input as a nested int array converting the letters to their ascii values
+var map: [[Int]] = []
 do {
   map = try String(contentsOfFile: "inputTest.txt", encoding: .utf8)
   .split(separator: "\n")
   .map { Array(String($0))
-        .compactMap { String($0) }
+        .compactMap { 
+          Int(UnicodeScalar(String($0))?.value ?? 0)           
+          }
        }
 } catch {
   print(error.localizedDescription)
@@ -37,12 +40,9 @@ class Square: Hashable {
     self.row = row
     self.col = col
   }
+
+  var height: Int { map[row][col]}
   
-  var height: Int {
-       return Int(UnicodeScalar(
-                map[self.row][self.col])?
-                 .value ?? 0)
-  }
   // G 
   var G: Int {
     if let parent = self.parent {
@@ -50,16 +50,20 @@ class Square: Hashable {
     } else { return 0 }
   }
 
+  // H
   var H: Int {
     abs(endPosition.row - self.row) + 
     abs(endPosition.col - self.col)
   }
 
-  var F: Int { H + G}
+  // F
+  var F: Int { H + G }
+  
   // conform to hashable
   static func ==(lhs: Square, rhs: Square) -> Bool {
     return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
   }
+  
   func hash(into hasher: inout Hasher) { 
     return hasher.combine(ObjectIdentifier(self))
   }
@@ -68,15 +72,17 @@ class Square: Hashable {
 var openList: Set<Square> = [startPosition]
 var closedList: Set<Square> = [startPosition]
 var currentSquare = startPosition
+var start = 83 // the height of starting point or Ascii for S
 
 // check the adjacent squares and add them to the open list
+// also making the current square the parent of the adj square
 func checkAdjacentSquares(currentSquare: Square) {
   // check up
   if currentSquare.row - 1 >= 0 {
     let adjSquare = Square(row: currentSquare.row - 1, 
                            col: currentSquare.col )  
      if (adjSquare.height - currentSquare.height) <= 1 || 
-         currentSquare.height == 83 {
+         currentSquare.height == start {
             openList.insert(adjSquare)
             adjSquare.parent = currentSquare
      }
@@ -86,7 +92,7 @@ func checkAdjacentSquares(currentSquare: Square) {
     let adjSquare = Square(row: currentSquare.row + 1, 
                            col: currentSquare.col )   
      if (adjSquare.height - currentSquare.height) <= 1 || 
-         currentSquare.height == 83 {
+         currentSquare.height == start {
           openList.insert(adjSquare)
           adjSquare.parent = currentSquare
      }
@@ -96,7 +102,7 @@ func checkAdjacentSquares(currentSquare: Square) {
     let adjSquare = Square(row: currentSquare.row, 
                            col: currentSquare.col - 1)
      if (adjSquare.height - currentSquare.height) <= 1 || 
-         currentSquare.height == 83 {
+         currentSquare.height == start {
            openList.insert(adjSquare)
            adjSquare.parent = currentSquare
      }
@@ -106,7 +112,7 @@ func checkAdjacentSquares(currentSquare: Square) {
     let adjSquare = Square(row: currentSquare.row, 
                            col: currentSquare.col + 1 )   
      if (adjSquare.height - currentSquare.height) <= 1 || 
-        currentSquare.height == 83 {
+        currentSquare.height == start {
            openList.insert(adjSquare)
            adjSquare.parent = currentSquare
     }
@@ -120,7 +126,7 @@ closedList.insert(currentSquare)
 print(openList)
 
 for square in openList {
-  print(square.parent?.height, square.height, square.H, "+",  square.G, "=", square.F)
+  print(square.parent?.height ?? 0, square.height, square.H, "+", square.G, "=", square.F)
 }
 // for each open square calculate F  G  and H
 // G - take the G cost from parent and add 10

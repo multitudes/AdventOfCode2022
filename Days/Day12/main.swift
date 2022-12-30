@@ -1,33 +1,52 @@
 // work in progress!
-
 import Foundation
 
-// getting my input as a nested int array converting the letters to their ascii values
-var map: [[Int]] = []
+// getting my input as a nested array 
+var contents: [[String]] = []
 do {
-  map = try String(contentsOfFile: "inputTest.txt", encoding: .utf8)
+  contents = try String(contentsOfFile: "inputTest.txt", encoding: .utf8)
   .split(separator: "\n")
-  .map { Array(String($0))
-        .compactMap { 
-          Int(UnicodeScalar(String($0))?.value ?? 0)           
-          }
-       }
+  .map { Array(String($0)).map {String($0)}}
 } catch {
   print(error.localizedDescription)
 }
 
-for line in map {
+// check
+for line in contents {
   print(line)
+}
+
+// create a mnested array squares with 
+var map: [[Square]] = []
+for row in 0..<contents.count {
+  let newRow: [Square] = [] 
+  map.append(newRow)
+  for col in 0..<contents[0].count {
+    let height = Int(UnicodeScalar(contents[row][col])?.value ?? 0)   
+    let sq = Square(row: row, col: col, height: height )
+     map[row].append(sq)
+  }
+}
+
+for row in 0..<map.count {
+  for col in 0..<map[0].count {
+    print(map[row][col].height)  
+  }
 }
 
 // convenience variables
 var lastCol = map[0].count - 1
 var lastRow = map.count - 1
-var startPosition = Square(row: 0, col: 0)
+var startPosition = map[0][0]
 //var startPosition = Square(row: 20, col: 0)
 //var endPosition = Square(row: 20 , col: 89)
-var endPosition = Square(row: 2 , col: 6) // test
-var up = "^"; var down = "v"; var left = "<"; var right = ">"
+var endPosition =  map[2][6] // test
+
+
+enum Dir: String {
+  case up = "^", down = "v", left = "<", right = ">"
+}
+
 var steps = 1
 
 // a case of A* pathfinding
@@ -36,12 +55,13 @@ class Square: Hashable {
   var col: Int = 0
   var parent: Square? = nil
   
-  init(row: Int, col: Int ) {
+  init(row: Int, col: Int, height: Int ) {
     self.row = row
     self.col = col
+    self.height = height
   }
 
-  var height: Int { map[row][col]}
+  var height: Int = 0
   
   // G 
   var G: Int {
@@ -68,78 +88,132 @@ class Square: Hashable {
     return hasher.combine(ObjectIdentifier(self))
   }
 }
-// squares to be considered.
-var openList: Set<Square> = [startPosition]
-var closedList: Set<Square> = [startPosition]
-var currentSquare = startPosition
-var start = 83 // the height of starting point or Ascii for S
 
+// this function just do one thing...
+func inMapLimits(_ direction: Dir)-> Bool {
+  switch direction {
+    case .up:
+      return currentSquare.row - 1 >= 0
+    case .down:
+      return currentSquare.row + 1 < lastRow
+    case .left:
+      return currentSquare.col - 1 >= 0
+    case .right:
+      return currentSquare.col + 1 < lastCol
+  }
+}
+
+func checkIfSummit(_ adjSquare: Square) {
+  if adjSquare.height == end {
+    print("*****************************\nEND**********\n")
+  }
+}
+
+// add to open list and update parent if necessary
+func addToOpenList(_ adjSquare: Square) {
+   // check if the adj sq is already on the open list
+   let result: (inserted: Bool, 
+                memberAfterInsert: Square) = 
+                  openList.insert(adjSquare)
+    // if not on the open list I add me as parent
+    if result.inserted {
+       adjSquare.parent = currentSquare
+    } else {
+    // if on the open list already 
+    // I check if my G value is better and if so
+    // I update the parent
+    if adjSquare.G < currentSquare.G   {
+        adjSquare.parent = currentSquare
+       } 
+    }
+}
+// check if walkable and if so add to open list
+func walkable(_ adjSquare: Square) -> Bool {
+  // check if in closed list - if so exit!
+  if closedList.contains(adjSquare) {
+    return false
+  }
+  if (adjSquare.height - currentSquare.height) <= 1 || 
+         currentSquare.height == start || 
+  currentSquare.height == end {
+          return true
+  } else { return false }
+}
 // check the adjacent squares and add them to the open list
 // also making the current square the parent of the adj square
-func checkAdjacentSquares(currentSquare: Square) {
+func checkAdjacentSquaresUpdateOpenList() {
   // check up
-  if currentSquare.row - 1 >= 0 {
-    let adjSquare = Square(row: currentSquare.row - 1, 
-                           col: currentSquare.col )  
-     if (adjSquare.height - currentSquare.height) <= 1 || 
-         currentSquare.height == start {
-            openList.insert(adjSquare)
-            adjSquare.parent = currentSquare
-     }
-  }
+  if inMapLimits(.up) {
+    let adjSquare = map[currentSquare.row - 1][currentSquare.col] 
+    checkIfSummit(adjSquare)
+    if walkable(adjSquare) {
+      addToOpenList(adjSquare)
+      }
+    }
   // check down
-  if currentSquare.row + 1 < lastRow {
-    let adjSquare = Square(row: currentSquare.row + 1, 
-                           col: currentSquare.col )   
-     if (adjSquare.height - currentSquare.height) <= 1 || 
-         currentSquare.height == start {
-          openList.insert(adjSquare)
-          adjSquare.parent = currentSquare
-     }
+  if inMapLimits(.down) {
+    let adjSquare = map[currentSquare.row + 1][currentSquare.col] 
+    checkIfSummit(adjSquare)
+    if walkable(adjSquare) {
+      addToOpenList(adjSquare)
+      }
   } 
   // check left
-  if currentSquare.col - 1 >= 0 {
-    let adjSquare = Square(row: currentSquare.row, 
-                           col: currentSquare.col - 1)
-     if (adjSquare.height - currentSquare.height) <= 1 || 
-         currentSquare.height == start {
-           openList.insert(adjSquare)
-           adjSquare.parent = currentSquare
-     }
+  if inMapLimits(.left) {
+    let adjSquare = map[currentSquare.row][currentSquare.col - 1]
+    checkIfSummit(adjSquare)
+    if walkable(adjSquare) {
+      addToOpenList(adjSquare)
+      }
   } 
   // check right
-  if currentSquare.col + 1 < lastCol {
-    let adjSquare = Square(row: currentSquare.row, 
-                           col: currentSquare.col + 1 )   
-     if (adjSquare.height - currentSquare.height) <= 1 || 
-        currentSquare.height == start {
-           openList.insert(adjSquare)
-           adjSquare.parent = currentSquare
-    }
+  if inMapLimits(.right) {
+    let adjSquare = map[currentSquare.row][currentSquare.col + 1]   
+    checkIfSummit(adjSquare)
+    if walkable(adjSquare) {
+      addToOpenList(adjSquare)
+      }
   } 
+  // update the lists 
+  openList.remove(currentSquare)
+  closedList.insert(currentSquare)
 }
-checkAdjacentSquares(currentSquare: currentSquare)
-print(openList)
-// for each of them add the first square as a parent 
-openList.remove(currentSquare)
-closedList.insert(currentSquare)
-print(openList)
 
-for square in openList {
-  print(square.parent?.height ?? 0, square.height, square.H, "+", square.G, "=", square.F)
-}
+// ************** main logic ****************
+
+
+// squares to be considered.
+var openList: Set<Square> = [startPosition]
+// squares already visited.
+var closedList: Set<Square> = [startPosition]
+// my start square
+var currentSquare = startPosition
+// the height of starting point or Ascii for S
+var start = 83 
+// the ascii value for the "E" char I am looking for
+var end = 69 
+
+for _ in 0..<2 {
+  print("curr height", currentSquare.height)
+// check the adj squares and update the open list
+ checkAdjacentSquaresUpdateOpenList()
+
+print("open List")
+ for square in openList {
+   print("parent ",square.parent?.height ?? 0, "square ",square.height, square.H, 
+ "+", square.G, "=", square.F)
+ }
+print("closed List")
+ for square in closedList {
+   print("parent ",square.parent?.height ?? 0, "square ",square.height, square.H, 
+ "+", square.G, "=", square.F)
+ }
 // for each open square calculate F  G  and H
 // G - take the G cost from parent and add 10
 // H is estimated = distance to E manhattan method
 // F is the sum of G and H
 //we choose the lowest F score square from all those that are on the open list. 
-if let currentSquare = openList.min(by: { (a, b) -> Bool in
-    return a.F <= b.F
-    }) {
-  openList.remove(currentSquare)
-  closedList.insert(currentSquare)
-  checkAdjacentSquares(currentSquare: currentSquare)
-  for square in openList {
-  print(square.parent?.height, square.height, square.H, "+",  square.G, "=", square.F)
+currentSquare = openList.min(by: { (a, b) -> Bool in
+    return a.F < b.F
+    })!
 }
-    }

@@ -1,7 +1,7 @@
 // work in progress!
 import Foundation
 
-// getting my input as a nested int array
+// getting my input as a nested array
 var map: [[String]] = []
 do {
   map = try String(contentsOfFile: "inputTest.txt", encoding: .utf8)

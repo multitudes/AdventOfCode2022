@@ -727,5 +727,110 @@ I created two sets, called closed and open list. The closed list will not be tak
 
 ```swift
 
+// add to open list and update parent if necessary
+func addToOpenList(_ adjSquare: Square) {
+   // check if the adj sq is already on the open list
+   let result: (inserted: Bool, 
+                memberAfterInsert: Square) = 
+                  openList.insert(adjSquare)
+    // if not on the open list I add me as parent
+    if result.inserted {
+       adjSquare.parent = currentSquare
+    } else {
+    // if on the open list already and I arrived to this
+    // square from somewhere maybe shorter 
+    // I check if my G value is better and if so
+    // I update the adj sq and put myself as parent
+    if currentSquare.G <= adjSquare.G   {
+        adjSquare.parent = currentSquare
+       } 
+    }
+}
 ```
-The main function checks in all directions and updates the 
+The main function checks in all directions checking if the square is `walkable`
+```swift
+// check if walkable and if so add to open list
+func walkable(_ adjSquare: Square) -> Bool {
+  // check if in closed list - if so exit!
+  if closedList.contains(adjSquare) {
+    return false
+  }
+  // here I check that the height diff is not bigger than one
+  if (adjSquare.height - currentSquare.height) <= 1  {
+          return true
+  } else { return false }
+}
+```
+
+and updates the open list
+```swift
+// check the adjacent squares and add them to the open list
+// also making the current square the parent of the adj square
+func checkAdjacentSquaresUpdateOpenList() {
+  // check up
+  if inMapLimits(.up) {
+    let adjSquare = map[currentSquare.row - 1][currentSquare.col] 
+    if walkable(adjSquare) {
+      addToOpenList(adjSquare)
+      }
+    }
+  // check down
+  if inMapLimits(.down) {
+    let adjSquare = map[currentSquare.row + 1][currentSquare.col] 
+    if walkable(adjSquare) {
+      addToOpenList(adjSquare)
+      }
+  } 
+  // check left
+  if inMapLimits(.left) {
+    let adjSquare = map[currentSquare.row][currentSquare.col - 1]
+    if walkable(adjSquare) {
+      addToOpenList(adjSquare)
+      }
+  } 
+  // check right
+  if inMapLimits(.right) {
+    let adjSquare = map[currentSquare.row][currentSquare.col + 1]   
+    if walkable(adjSquare) {
+      addToOpenList(adjSquare)
+      }
+  } 
+}
+```
+
+The main logic:  
+```swift
+while true {
+  // get the current square from the open list
+  // we choose the lowest F score square from all 
+  // those that are on the open list. 
+  if let bestOption = openList.min(by: { (a, b) -> Bool in
+    return a.F < b.F }) {
+    currentSquare = bestOption
+    }
+  
+  // update the lists 
+  openList.remove(currentSquare)
+  closedList.insert(currentSquare)
+  // check if summit
+ if currentSquare.height == end && 
+  currentSquare.row == endCoord.row &&
+  currentSquare.col == endCoord.col  {
+    //print("****************END**********\n")
+    break
+  }
+// check the adj squares and update the open list
+ checkAdjacentSquaresUpdateOpenList()
+}
+```
+
+And counting the steps backward...
+```swift
+// Here I found my end square and count the steps back
+counter = 0
+while currentSquare.parent != nil {
+  counter += 1
+  currentSquare = currentSquare.parent! 
+}
+print("solution 1 ", counter)
+```

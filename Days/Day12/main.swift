@@ -5,7 +5,7 @@ var map: [[Square]] = []
 
 // convenience variables
 // the height of starting point S or Ascii for a
-let start = 96
+let start = 97
 // the height of the end point E or Ascii for z 
 let end = 122 // 122
 // to test

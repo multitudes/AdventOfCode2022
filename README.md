@@ -675,4 +675,57 @@ for line in CRTScreen {
 Getting the data from the monkey input files is the first challenge. Swift 5.7 has a new Regex engine but the Replit.com playground has not yet upgraded to the new swift version. Using the old regex framework is monkey work! it would take quite a few hundred line of code. Since I have only a few monkeys I decided to extract the data manually.  
 The second "ah ah" moment is realizing that in a loop like `for line in lines {}` the whole lines struct is actually copied and will not be updated anymore in later loops. I need to loop with indices only :)
 
+## Day 12
+A case of A* Pathfinding :)  
+I made a class `Square` to populate my input map. A class because a struct would not allow me to have itself nested as parent. Probably it is possible to solve this challenge with a struct, but classes as reference type are easier to pass around and track when a struct would do a copy everytime.
 
+The algorythm works like the dijkstra one with some difference. One is the optimisation with the heuristic parameter H which estimates the distance to the target.  
+In the class below the H and G param are updated automatically.
+
+```swift
+// a class for A* pathfinding
+public class Square: Hashable {
+  private(set) var row: Int = 0
+  private(set) var col: Int = 0
+  // important to get the path back
+  public var parent: Square? = nil
+  
+  public init(row: Int, col: Int, height: Int ) {
+    self.row = row
+    self.col = col
+    self.height = height
+  }
+
+  let height: Int
+
+  // G is the distance alreasy travelled. It is the G cost 
+  // of the parent plus 1 
+  var G: Int { (self.parent?.G ?? 0) + 1  }
+
+  // H stays for "Heuristic" and tries to estimate 
+  // the distance to E with the Manhattan method
+  var H: Int {
+    abs(endPosition.row - self.row) + 
+    abs(endPosition.col - self.col)
+  }
+
+  // F is the sum of the Heuristic
+  var F: Int { H + G }
+  
+  // need this to conform to hashable
+  public static func ==(lhs: Square, rhs: Square) -> Bool {
+    return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
+  }
+  
+  public func hash(into hasher: inout Hasher) { 
+    return hasher.combine(ObjectIdentifier(self))
+  }
+}
+```
+Also to find the best path I crucially update the parent of a square when I find a shorter path for it. I can see this with the G value which counts the distance from the start poin.  
+I created two sets, called closed and open list. The closed list will not be taken into consideration again while the open one is the pool from which I pick up the best next square based on the sum of the heuristic prediction H and the distance from the start G.  
+
+```swift
+
+```
+The main function checks in all directions and updates the 

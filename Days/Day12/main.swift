@@ -155,9 +155,10 @@ while true {
   // get the current square from the open list
   // we choose the lowest F score square from all 
   // those that are on the open list. 
-  currentSquare = openList.min(by: { (a, b) -> Bool in
-    return a.F < b.F 
-    })!
+  if let bestOption = openList.min(by: { (a, b) -> Bool in
+    return a.F < b.F }) {
+    currentSquare = bestOption
+    }
   
   // update the lists 
   openList.remove(currentSquare)

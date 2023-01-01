@@ -4,14 +4,15 @@ import Foundation
 var map: [[Square]] = []
 
 // convenience variables
-// the height of starting point or Ascii for S
-let start = 96 
-// the ascii value for the "E" char I am looking for is 69
-// but I will use 123 to aid the algo climbing
-let end = 123 // 123
-let file = "input.txt"
+// the height of starting point S or Ascii for a
+let start = 96
+// the height of the end point E or Ascii for z 
+let end = 122 // 122
+// to test
+//let file = "inputTest.txt"
 //let startCoord: (row: Int, col: Int) = (0,0)
 //let endCoord: (row: Int, col: Int) = (2,5)
+let file = "input.txt"
 let startCoord: (row: Int, col: Int) = (20,0)
 let endCoord: (row: Int, col: Int) = (20,88)
 
@@ -163,11 +164,14 @@ while true {
   closedList.insert(currentSquare)
   
   // test
-  print("\ncurr height ********************", currentSquare.height, "(", currentSquare.row, currentSquare.col, ")")
-  print("openList.count ",openList.count)
+  //print("\ncurr height ********************", currentSquare.height, "(", currentSquare.row, currentSquare.col, ")")
+  //print("openList.count ",openList.count)
+  
  // check if summit
- if currentSquare.height == end {
-    print("*****************************\nEND**********\n")
+ if currentSquare.height == end && 
+  currentSquare.row == endCoord.row &&
+  currentSquare.col == endCoord.col  {
+    //print("****************END**********\n")
     break
   }
 // check the adj squares and update the open list
